@@ -21,6 +21,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       skill: [],
       email: "",
       rating: "");
+
   UserBloc()
       : super(UserState(UserModal(
             username: "",
