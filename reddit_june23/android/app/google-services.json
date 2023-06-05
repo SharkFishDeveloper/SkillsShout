@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1088001277980",
+    "project_id": "mangoshake-ae550",
+    "storage_bucket": "mangoshake-ae550.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1088001277980:android:f0c514543f91f9645f9fd9",
+        "android_client_info": {
+          "package_name": "com.example.reddit_june23"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1088001277980-qvmempofuurgqdkm825o174nfgce3u33.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC7EcrNTeKm2_tal8hvgNWVqVwM4euMsdA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1088001277980-qvmempofuurgqdkm825o174nfgce3u33.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
