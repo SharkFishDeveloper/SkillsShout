@@ -1,7 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:reddit_june23/features/user/bloc/user_bloc.dart';
 
+import '../../../modals/user_modal.dart';
 import '../controller/auth_controller.dart';
 import '../repository/auth_repository.dart';
 import 'login_screen.dart';
@@ -95,10 +98,18 @@ class _EmailSignUpState extends ConsumerState<EmailSignUp> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 ElevatedButton(
-                  onPressed: () => ref
-                      .watch(authControllerProvider)
-                      .signUpWithEmail(emailController.text,
-                          passwordController.text, context),
+                  onPressed: () {
+                    final userbloc = BlocProvider.of<UserBloc>(context);
+
+                    final updatedModal = userbloc.userModal
+                        .copyWith(email: emailController.text);
+
+                    print(updatedModal.toString());
+
+                    ref.watch(authControllerProvider).signUpWithEmail(
+                        emailController.text, passwordController.text, context);
+                    userbloc.add(UserUpdateEvent(updatedModal));
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.grey,
                   ),
