@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:reddit_june23/features/user/bloc/user_bloc.dart';
 
 import '../../../modals/user_modal.dart';
+import '../../details/view/screens/details_screen.dart';
 import '../controller/auth_controller.dart';
 import '../repository/auth_repository.dart';
 import 'login_screen.dart';
@@ -108,7 +109,12 @@ class _EmailSignUpState extends ConsumerState<EmailSignUp> {
 
                     ref.watch(authControllerProvider).signUpWithEmail(
                         emailController.text, passwordController.text, context);
-                    userbloc.add(UserUpdateEvent(updatedModal));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => DetailsScreen()));
+
+                    //  userbloc.add(UserUpdateEvent(updatedModal)); //! should run when sign up is successfull
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.grey,
