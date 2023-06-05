@@ -99,7 +99,7 @@ class _EmailSignUpState extends ConsumerState<EmailSignUp> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
                     final userbloc = BlocProvider.of<UserBloc>(context);
 
                     final updatedModal = userbloc.userModal
@@ -107,12 +107,17 @@ class _EmailSignUpState extends ConsumerState<EmailSignUp> {
 
                     print(updatedModal.toString());
 
-                    ref.watch(authControllerProvider).signUpWithEmail(
-                        emailController.text, passwordController.text, context);
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => DetailsScreen()));
+                    bool res = await ref
+                        .watch(authControllerProvider)
+                        .signUpWithEmail(emailController.text,
+                            passwordController.text, context);
+
+                    if (res && mounted) {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => DetailsScreen()));
+                    }
 
                     //  userbloc.add(UserUpdateEvent(updatedModal)); //! should run when sign up is successfull
                   },

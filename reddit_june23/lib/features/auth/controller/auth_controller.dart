@@ -13,9 +13,11 @@ class AuthController {
   AuthController({required FireBaseAuthMethods authRepository})
       : _authRepository = authRepository;
 
-  void signUpWithEmail(String email, String password, BuildContext context) {
-    _authRepository.signUpWithEmail(
+  Future<bool> signUpWithEmail(
+      String email, String password, BuildContext context) async {
+    bool res = await _authRepository.signUpWithEmail(
         email: email, password: password, context: context);
+    return res;
   }
 
   void loginWithEmail(String email, String password, BuildContext context) {

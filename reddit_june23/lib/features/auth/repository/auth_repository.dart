@@ -16,7 +16,7 @@ class FireBaseAuthMethods {
 
   FireBaseAuthMethods(this._auth);
 
-  Future<void> signUpWithEmail({
+  Future<bool> signUpWithEmail({
     required String email,
     required String password,
     required BuildContext context,
@@ -25,29 +25,32 @@ class FireBaseAuthMethods {
       final user = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
       print(user.toString());
+
+      User? currentUser = FirebaseAuth.instance.currentUser;
+
+      UserModal userModal = UserModal(
+          uid: currentUser!.uid,
+          username: currentUser.displayName ?? 'no name',
+          phoneNumber: currentUser.phoneNumber ?? 'no phone number',
+          isAdmin: true,
+          bio: 'no bio',
+          city: 'no city',
+          idOfFollowers: [],
+          skill: [],
+          email: currentUser.email ?? 'no email',
+          rating: '0');
+
+      CollectionReference users =
+          FirebaseFirestore.instance.collection('all_users');
+      users.doc(currentUser.uid).set(userModal.toMap());
+
+      return true;
     } on FirebaseAuthException catch (e) {
       showSnackBar(context, e.message!);
     } catch (e) {
       showSnackBar(context, e.toString());
     }
-
-    User? user = FirebaseAuth.instance.currentUser;
-
-    UserModal userModal = UserModal(
-        uid: user!.uid,
-        username: user.displayName ?? 'no name',
-        phoneNumber: user.phoneNumber ?? 'no phone number',
-        isAdmin: true,
-        bio: 'no bio',
-        city: 'no city',
-        idOfFollowers: [],
-        skill: [],
-        email: user.email ?? 'no email',
-        rating: '0');
-
-    CollectionReference users =
-        FirebaseFirestore.instance.collection('all_users');
-    users.doc(user.uid).set(userModal.toMap());
+    return false;
   }
 
   Future<void> loginWithEmail({
