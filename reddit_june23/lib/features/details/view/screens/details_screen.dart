@@ -1,8 +1,15 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:reddit_june23/features/user/bloc/user_bloc.dart';
+
+import '../../../../modals/user_modal.dart';
 
 class DetailsScreen extends StatefulWidget {
+  final String email;
   @override
   _DetailsScreenState createState() => _DetailsScreenState();
+  const DetailsScreen({required this.email});
 }
 
 class _DetailsScreenState extends State<DetailsScreen> {
@@ -32,13 +39,29 @@ class _DetailsScreenState extends State<DetailsScreen> {
       String phone = _phoneController.text;
       String city = _cityController.text;
       String bio = _bioController.text;
-      String skills = _skillsController.text;
+      //String skills = _skillsController.text;
+      User? currentUser = FirebaseAuth.instance.currentUser;
+      String uid = currentUser!.uid;
+      final userModal = UserModal(
+          uid: uid,
+          username: name,
+          phoneNumber: phone,
+          isAdmin: false,
+          email: widget.email,
+          idOfFollowers: [],
+          city: city,
+          bio: bio,
+          skill: ["tree", "plants"],
+          rating: "");
 
       print('Name: $name');
       print('Phone: $phone');
       print('City: $city');
       print('Bio: $bio');
-      print('Skills: $skills');
+      //print('Skills: $skills');
+      final userBloc = BlocProvider.of<UserBloc>(context);
+      userBloc.add(UserUpdateEvent(userModal));
+      userBloc.add(StoreUserDataEventInFirestore(userModal));
     }
   }
 

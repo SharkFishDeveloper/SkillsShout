@@ -8,3 +8,8 @@ class UserUpdateEvent extends UserEvent {
 
   UserUpdateEvent(this.userModal); //* to be given by UI
 }
+
+class StoreUserDataEventInFirestore extends UserEvent {
+  final UserModal userModal;
+  StoreUserDataEventInFirestore(this.userModal);
+}

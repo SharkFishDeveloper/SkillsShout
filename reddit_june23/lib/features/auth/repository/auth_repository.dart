@@ -26,23 +26,23 @@ class FireBaseAuthMethods {
           email: email, password: password);
       print(user.toString());
 
-      User? currentUser = FirebaseAuth.instance.currentUser;
+      // User? currentUser = FirebaseAuth.instance.currentUser;
 
-      UserModal userModal = UserModal(
-          uid: currentUser!.uid,
-          username: currentUser.displayName ?? 'no name',
-          phoneNumber: currentUser.phoneNumber ?? 'no phone number',
-          isAdmin: true,
-          bio: 'no bio',
-          city: 'no city',
-          idOfFollowers: [],
-          skill: [],
-          email: currentUser.email ?? 'no email',
-          rating: '0');
+      // UserModal userModal = UserModal(
+      //     uid: currentUser!.uid,
+      //     username: currentUser.displayName ?? 'no name',
+      //     phoneNumber: currentUser.phoneNumber ?? 'no phone number',
+      //     isAdmin: true,
+      //     bio: 'no bio',
+      //     city: 'no city',
+      //     idOfFollowers: [],
+      //     skill: [],
+      //     email: currentUser.email ?? 'no email',
+      //     rating: '0');
 
-      CollectionReference users =
-          FirebaseFirestore.instance.collection('all_users');
-      users.doc(currentUser.uid).set(userModal.toMap());
+      // CollectionReference users =
+      //     FirebaseFirestore.instance.collection('all_users');
+      // users.doc(currentUser.uid).set(userModal.toMap());
 
       return true;
     } on FirebaseAuthException catch (e) {

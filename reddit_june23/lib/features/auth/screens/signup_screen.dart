@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:reddit_june23/features/user/bloc/user_bloc.dart';
 
-import '../../../modals/user_modal.dart';
 import '../../details/view/screens/details_screen.dart';
 import '../controller/auth_controller.dart';
 import '../repository/auth_repository.dart';
@@ -18,6 +17,7 @@ class EmailSignUp extends ConsumerStatefulWidget {
 }
 
 class _EmailSignUpState extends ConsumerState<EmailSignUp> {
+  bool isLoading = false;
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
@@ -100,31 +100,31 @@ class _EmailSignUpState extends ConsumerState<EmailSignUp> {
               children: [
                 ElevatedButton(
                   onPressed: () async {
-                    final userbloc = BlocProvider.of<UserBloc>(context);
-
-                    final updatedModal = userbloc.userModal
-                        .copyWith(email: emailController.text);
-
-                    print(updatedModal.toString());
-
+                    setState(() {
+                      isLoading = true;
+                    });
                     bool res = await ref
                         .watch(authControllerProvider)
                         .signUpWithEmail(emailController.text,
                             passwordController.text, context);
-
+                    setState(() {
+                      isLoading = false;
+                    });
                     if (res && mounted) {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => DetailsScreen()));
+                              builder: (context) => DetailsScreen(
+                                    email: emailController.text,
+                                  )));
                     }
-
-                    //  userbloc.add(UserUpdateEvent(updatedModal)); //! should run when sign up is successfull
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.grey,
                   ),
-                  child: const Text('Proceed'),
+                  child: isLoading
+                      ? const CircularProgressIndicator()
+                      : const Text('Proceed'),
                 ),
               ],
             ),
