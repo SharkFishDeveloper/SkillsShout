@@ -29,7 +29,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 children: [
                   menuAndUserIconRow(),
                   const SizedBox(
-                    height: 28,
+                    height: 40,
                   ),
                   welcomeName(context, state),
                   const SizedBox(
