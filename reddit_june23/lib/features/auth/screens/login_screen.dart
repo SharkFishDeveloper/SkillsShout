@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:reddit_june23/features/dashboard/bloc/view/screens/dashboard_screen.dart';
 //import 'package:signin_login/firebase_auth.dart';
 
 import '../controller/auth_controller.dart';
@@ -82,10 +83,15 @@ class _EmailSignUpState extends ConsumerState<LoginScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 ElevatedButton(
-                  onPressed: () => ref
+                  onPressed: () { ref
                       .watch(authControllerProvider)
                       .loginWithEmail(emailController.text,
-                          passwordController.text, context),
+                          passwordController.text, context);
+                          Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const DashboardScreen()));
+                          },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.grey,
                   ),
