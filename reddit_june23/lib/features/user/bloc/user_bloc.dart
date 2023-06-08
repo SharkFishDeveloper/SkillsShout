@@ -26,7 +26,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   //     rating: "");
 
   UserBloc()
-      : super(UserState(UserModal(
+      : super(UserStateData(UserModal(
             username: "",
             bio: "",
             phoneNumber: "",
@@ -43,22 +43,23 @@ class UserBloc extends Bloc<UserEvent, UserState> {
 
   FutureOr<void> userUpdate(UserUpdateEvent event, Emitter<UserState> emit) {
 //userModal = event.userModal;
-    emit(UserState(event.userModal));
+    emit(UserStateData(event.userModal));
   }
 
   FutureOr<void> storeUserDataEventInFirestore(
       StoreUserDataEventInFirestore event, Emitter<UserState> emit) {
     try {
       User? currentUser = FirebaseAuth.instance.currentUser;
-
       CollectionReference users =
           FirebaseFirestore.instance.collection('all_users');
       users.doc(event.userModal.uid).set(event.userModal.toMap());
     } on FirebaseAuthException catch (e) {
       //showSnackBar(context, e.message!);
+      emit(UserErrorState(errorMessage: e.message!));
       print(e.message);
     } catch (e) {
       //showSnackBar(context, e.toString());
+      emit(UserErrorState(errorMessage: e.toString()));
       print(e.toString());
     }
   }

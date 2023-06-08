@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:reddit_june23/features/dashboard/bloc/view/screens/dashboard_screen.dart';
 import 'package:reddit_june23/features/user/bloc/user_bloc.dart';
 
 import '../../../../modals/user_modal.dart';
@@ -62,6 +63,8 @@ class _DetailsScreenState extends State<DetailsScreen> {
       final userBloc = BlocProvider.of<UserBloc>(context);
       userBloc.add(UserUpdateEvent(userModal));
       userBloc.add(StoreUserDataEventInFirestore(userModal));
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => const DashboardScreen()));
     }
   }
 
