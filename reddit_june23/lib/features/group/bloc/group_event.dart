@@ -5,9 +5,13 @@ abstract class GroupEvent {}
 
 class CreateGroupAndStoreFireStoreEvent extends GroupEvent {
   final UserModal userWhoCreatedGroup;
-  final GroupModal groupModal;
+  final String groupName;
+  final String groupDescription;
 
-  CreateGroupAndStoreFireStoreEvent(this.userWhoCreatedGroup, this.groupModal);
+  CreateGroupAndStoreFireStoreEvent(
+      {required this.userWhoCreatedGroup,
+      required this.groupName,
+      required this.groupDescription});
 }
 
 class DeleteGroupEvent extends GroupEvent {}

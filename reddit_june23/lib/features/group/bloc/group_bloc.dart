@@ -19,18 +19,23 @@ class GroupBloc extends Bloc<GroupEvent, GroupState> {
     emit(LoadingGroupState());
 
     try {
+      print("Inside try");
       final firestore = FirebaseFirestore.instance;
       // Generate a UID for the group
       final groupRef = firestore.collection('groups').doc();
       final groupId = groupRef.id;
       final newGroup = GroupModal(
           uid: groupId,
-          groupName: event.groupModal.groupName,
-          groupDescription: event.groupModal.groupDescription,
-          groupMembersIds: event.groupModal.groupMembersIds,
-          stars: event.groupModal.stars,
-          groupAdminIds: event.groupModal.groupAdminIds,
-          noOfGroupMembers: event.groupModal.noOfGroupMembers);
+          groupName: event.groupName,
+          groupDescription: event.groupDescription,
+          groupMembersIds: [],
+          stars: "0",
+          groupAdminIds: [],
+          noOfGroupMembers: 1);
+
+      newGroup.groupMembersIds.add(event.userWhoCreatedGroup.uid);
+      newGroup.groupAdminIds.add(event.userWhoCreatedGroup.uid);
+      print(newGroup.toString());
       // Store the group data in Firestore
       await groupRef.set(newGroup.toMap());
       emit(GroupStateData(newGroup));

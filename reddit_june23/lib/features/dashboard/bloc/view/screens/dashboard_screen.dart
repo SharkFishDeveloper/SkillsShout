@@ -1,6 +1,7 @@
 import "package:flutter/material.dart";
 
 import "package:flutter_bloc/flutter_bloc.dart";
+import "../../../../group/view/screens/create_group_screen.dart";
 import "../../../../user/bloc/user_bloc.dart";
 import "../widgets/search_text_field.dart";
 
@@ -43,7 +44,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             },
           ),
         ),
-        drawer: drawer(),
+        drawer: drawer(context),
       ),
     );
   }
@@ -114,13 +115,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 }
 
-Widget drawer() {
+Widget drawer(BuildContext context) {
   return Drawer(
     child: ListView(
       children: [
         DrawerHeader(
           decoration: BoxDecoration(
-            color: const Color(0xfffD4ADFC).withOpacity(0.16),
+            color: const Color(0xffD4ADFC).withOpacity(0.16),
           ),
           child: const Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -146,7 +147,10 @@ Widget drawer() {
         ),
         OutlinedButton.icon(
           onPressed: () {
-            // Handle Home button tap
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => CreateGroupScreen()),
+            ); // Handle Home button tap
           },
           icon: const Icon(Icons.group),
           label: const Text('Create group'),
