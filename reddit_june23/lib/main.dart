@@ -21,7 +21,8 @@ class MyApp extends StatelessWidget {
     return ProviderScope(
       child: BlocProvider(
         create: (context) => UserBloc(),
-        child: const MaterialApp(
+        child:  MaterialApp(
+          theme: ThemeData(primaryColor:const Color(0xff1D267D)),
           title: 'Flutter Demo',
           home: HomeScreen(),
         ),

@@ -12,10 +12,12 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        key: _scaffoldKey,
         // appBar: AppBar(
         //   title: const Text("Dashboard"),
         // ),
@@ -41,7 +43,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             },
           ),
         ),
-        drawer: const Drawer(),
+        drawer: drawer(),
       ),
     );
   }
@@ -80,16 +82,21 @@ class _DashboardScreenState extends State<DashboardScreen> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Container(
-          padding: const EdgeInsets.all(8),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(
-              color: Colors.black26,
-              width: 1.0,
+        GestureDetector(
+          onTap: () {
+            _scaffoldKey.currentState!.openDrawer(); // Open the drawer
+          },
+          child: Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(
+                color: Colors.black26,
+                width: 1.0,
+              ),
             ),
+            child: const Icon(Icons.menu),
           ),
-          child: const Icon(Icons.menu),
         ),
         Container(
           padding: const EdgeInsets.all(8),
@@ -105,4 +112,67 @@ class _DashboardScreenState extends State<DashboardScreen> {
       ],
     );
   }
+}
+
+Widget drawer() {
+  return Drawer(
+    child: ListView(
+      children: [
+        DrawerHeader(
+          decoration: BoxDecoration(
+            color: const Color(0xfffD4ADFC).withOpacity(0.16),
+          ),
+          child: const Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'SkillsShout',
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
+              ),
+              SizedBox(height: 57 + 12),
+              Text(
+                'Learn by\ncreating or joining group',
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Colors.black38,
+                ),
+              ),
+            ],
+          ),
+        ),
+        OutlinedButton.icon(
+          onPressed: () {
+            // Handle Home button tap
+          },
+          icon: const Icon(Icons.group),
+          label: const Text('Create group'),
+          style: ButtonStyle(
+              minimumSize: MaterialStateProperty.all<Size>(
+                const Size(205, 40), // Specify the desired width and height
+              ),
+              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+              )),
+        ),
+        OutlinedButton.icon(
+          onPressed: () {
+            // Handle Settings button tap
+          },
+          icon: const Icon(Icons.group_add_sharp),
+          label: const Text('Join group'),
+          style: OutlinedButton.styleFrom(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+          ),
+        ),
+      ],
+    ),
+  );
 }
