@@ -53,17 +53,21 @@ class FireBaseAuthMethods {
     return false;
   }
 
-  Future<void> loginWithEmail({
+  Future<bool> loginWithEmail({
     required String email,
     required String password,
     required BuildContext context,
   }) async {
     try {
       await _auth.signInWithEmailAndPassword(email: email, password: password);
+      return true;
     } on FirebaseAuthException catch (e) {
-      if (!_auth.currentUser!.emailVerified) {
+    
         showSnackBar(context, e.code);
-      }
+      
     }
+    catch(e){
+       showSnackBar(context, e.toString());
+    }return false;
   }
 }

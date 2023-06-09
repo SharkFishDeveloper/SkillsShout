@@ -20,8 +20,9 @@ class AuthController {
     return res;
   }
 
-  void loginWithEmail(String email, String password, BuildContext context) {
-    _authRepository.loginWithEmail(
+  Future<bool> loginWithEmail(String email, String password, BuildContext context) async{
+   bool res= await _authRepository.loginWithEmail(
         email: email, password: password, context: context);
+        return res;
   }
 }

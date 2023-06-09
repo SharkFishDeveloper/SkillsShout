@@ -25,3 +25,4 @@ class UserSearchDataState extends UserState {
 }
 
 class NoUserAfterSearchState extends UserState {}
+class LoadingUsserState extends UserState{}

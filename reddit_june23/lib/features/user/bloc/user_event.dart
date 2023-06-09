@@ -16,8 +16,12 @@ class StoreUserDataEventInFirestore extends UserEvent {
 }
 
 class SearchUserEventInFirestore extends UserEvent {
-  String searchString;
+ final String searchString;
   SearchUserEventInFirestore({
     required this.searchString,
   });
+  
+}
+
+class GetUserDataFromFirestoreEvent extends UserEvent{
 }

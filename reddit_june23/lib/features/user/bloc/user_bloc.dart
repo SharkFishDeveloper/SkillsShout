@@ -40,6 +40,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     on<UserUpdateEvent>(userUpdate);
     on<StoreUserDataEventInFirestore>(storeUserDataEventInFirestore);
     on<SearchUserEventInFirestore>(searchUserByInFirestore);
+    on<GetUserDataFromFirestoreEvent>(fetchUserData);
   }
 
   FutureOr<void> userUpdate(UserUpdateEvent event, Emitter<UserState> emit) {
@@ -64,14 +65,13 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       print(e.toString());
     }
   }
-  
 
-
-  FutureOr<void> searchUserByInFirestore(SearchUserEventInFirestore event, Emitter<UserState> emit) async{
-     final firestore = FirebaseFirestore.instance;
+  FutureOr<void> searchUserByInFirestore(
+      SearchUserEventInFirestore event, Emitter<UserState> emit) async {
+    final firestore = FirebaseFirestore.instance;
     final CollectionReference usersCollection =
         firestore.collection('all_users');
- try {
+    try {
       QuerySnapshot querySnapshot = await usersCollection
           .where('skill', arrayContains: event.searchString)
           .get();
@@ -94,5 +94,26 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       emit(NoUserAfterSearchState());
     }
   }
-  
+
+  String getCurrentUserID() {
+    var user = FirebaseAuth.instance.currentUser;
+    return user!.uid;
+  }
+
+  FutureOr<void> fetchUserData(
+      GetUserDataFromFirestoreEvent event, Emitter<UserState> emit) async {
+    emit(LoadingUsserState());
+    String uid = getCurrentUserID();
+
+    final collection = FirebaseFirestore.instance.collection('all_users');
+    final document = await collection.doc(uid).get();
+
+    if (document.exists) {
+      var userData = document.data();
+      emit(UserStateData(UserModal.fromMap(
+          userData!))); //! Assumed that the userData cant be null
+    } else {
+      emit(UserErrorState(errorMessage: "Error getting user"));
+    }
+  }
 }
