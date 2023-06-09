@@ -39,6 +39,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
             email: ""))) {
     on<UserUpdateEvent>(userUpdate);
     on<StoreUserDataEventInFirestore>(storeUserDataEventInFirestore);
+    on<SearchUserEventInFirestore>(searchUserByInFirestore);
   }
 
   FutureOr<void> userUpdate(UserUpdateEvent event, Emitter<UserState> emit) {
@@ -63,4 +64,35 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       print(e.toString());
     }
   }
+  
+
+
+  FutureOr<void> searchUserByInFirestore(SearchUserEventInFirestore event, Emitter<UserState> emit) async{
+     final firestore = FirebaseFirestore.instance;
+    final CollectionReference usersCollection =
+        firestore.collection('all_users');
+ try {
+      QuerySnapshot querySnapshot = await usersCollection
+          .where('skill', arrayContains: event.searchString)
+          .get();
+
+      List<UserModal> users = [];
+
+      for (DocumentSnapshot document in querySnapshot.docs) {
+        // Convert document data to User object
+        UserModal user = UserModal.fromMap(document as Map<String, dynamic>);
+
+        users.add(user);
+      }
+
+      if (users.isEmpty) {
+        emit(NoUserAfterSearchState());
+      } else {
+        emit(UserSearchDataState(listOfUsersAfterSearch: users));
+      }
+    } catch (e) {
+      emit(NoUserAfterSearchState());
+    }
+  }
+  
 }

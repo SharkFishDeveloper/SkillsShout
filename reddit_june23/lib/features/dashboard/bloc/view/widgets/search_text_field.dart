@@ -21,6 +21,14 @@ class SearchTextField extends StatelessWidget {
           Icons.search,
           color: Colors.black38,
         ),
+        suffix: GestureDetector(
+      onTap: () {
+        // Handle button tap
+        print('search tapped');
+      },
+      child: const Icon(Icons.done),
+    ),
+        
       ),
     );
   }

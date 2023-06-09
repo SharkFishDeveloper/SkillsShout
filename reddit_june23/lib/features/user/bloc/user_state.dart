@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 part of 'user_bloc.dart';
 
 abstract class UserState {}
@@ -15,3 +16,12 @@ class UserErrorState extends UserState {
     required this.errorMessage,
   });
 }
+
+class UserSearchDataState extends UserState {
+  final List<UserModal> listOfUsersAfterSearch;
+  UserSearchDataState({
+    required this.listOfUsersAfterSearch,
+  });
+}
+
+class NoUserAfterSearchState extends UserState {}
