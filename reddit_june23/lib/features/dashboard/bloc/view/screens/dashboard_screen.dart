@@ -3,6 +3,7 @@ import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "../../../../group/view/screens/create_group_screen.dart";
 import "../../../../user/bloc/user_bloc.dart";
+import "../widgets/list_view_tile.dart";
 import "../widgets/search_text_field.dart";
 
 class DashboardScreen extends StatefulWidget {
@@ -38,7 +39,17 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   const SizedBox(
                     height: 24,
                   ),
-                  const SearchTextField(),
+                  SearchTextField(),
+                  Column(
+                    children: [
+                      if (state is NoUserAfterSearchState)
+                        const Text("No result"),
+                      if (state is UserSearchDataState)
+                        SearchedListItems(
+                          searchList: state.listOfUsersAfterSearch,
+                        )
+                    ],
+                  )
                 ],
               );
             },
