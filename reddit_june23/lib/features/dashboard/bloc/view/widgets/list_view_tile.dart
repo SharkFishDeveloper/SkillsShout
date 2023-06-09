@@ -15,25 +15,28 @@ class SearchedListItems extends StatefulWidget {
 class _SearchedListItemsState extends State<SearchedListItems> {
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      children: widget.searchList.map((item) {
-        return ListTile(
-          title: Text(item.username),
-          trailing: IconButton(
-            icon: const Icon(Icons.arrow_forward),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => ProfilePage(
-                          user: item,
-                        )),
-              );
-            },
-          ),
-          //subtitle: Text(),
-        );
-      }).toList(),
+    return Container(
+      height: 350,
+      child: ListView(
+        children: widget.searchList.map((item) {
+          return ListTile(
+            title: Text(item.username),
+            trailing: IconButton(
+              icon: const Icon(Icons.arrow_forward),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => ProfilePage(
+                            user: item,
+                          )),
+                );
+              },
+            ),
+            //subtitle: Text(),
+          );
+        }).toList(),
+      ),
     );
   }
 }

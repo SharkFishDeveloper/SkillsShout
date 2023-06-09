@@ -80,14 +80,17 @@ class UserBloc extends Bloc<UserEvent, UserState> {
 
       for (DocumentSnapshot document in querySnapshot.docs) {
         // Convert document data to User object
-        UserModal user = UserModal.fromMap(document as Map<String, dynamic>);
+        UserModal user =
+            UserModal.fromMap(document.data() as Map<String, dynamic>);
 
         users.add(user);
       }
 
       if (users.isEmpty) {
+        print(users);
         emit(NoUserAfterSearchState());
       } else {
+        print(users);
         emit(UserSearchDataState(listOfUsersAfterSearch: users));
       }
     } catch (e) {
