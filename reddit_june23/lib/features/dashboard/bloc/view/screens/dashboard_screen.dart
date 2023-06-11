@@ -3,6 +3,7 @@ import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "../../../../group/view/screens/create_group_screen.dart";
 import "../../../../user/bloc/user_bloc.dart";
+import "../../../../user/screens/update_page.dart";
 import "../widgets/list_view_tile.dart";
 import "../widgets/search_text_field.dart";
 
@@ -31,7 +32,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  menuAndUserIconRow(),
+                  menuAndUserIconRow(state),
                   const SizedBox(
                     height: 40,
                   ),
@@ -90,7 +91,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     return const Text("Welcome");
   }
 
-  Widget menuAndUserIconRow() {
+  Widget menuAndUserIconRow(UserState state) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -110,16 +111,30 @@ class _DashboardScreenState extends State<DashboardScreen> {
             child: const Icon(Icons.menu),
           ),
         ),
-        Container(
-          padding: const EdgeInsets.all(8),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(
-              color: Colors.black26,
-              width: 1.0,
+        GestureDetector(
+          onTap: () {
+            if (state is UserStateData) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => UpdateProfilePage(
+                    user: state.userModal,
+                  ),
+                ),
+              );
+            }
+          },
+          child: Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(
+                color: Colors.black26,
+                width: 1.0,
+              ),
             ),
+            child: const Icon(Icons.person),
           ),
-          child: const Icon(Icons.person),
         ),
       ],
     );

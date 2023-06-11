@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../../modals/user_modal.dart';
+import '../../../modals/user_modal.dart';
 
 class ProfilePage extends StatefulWidget {
   final UserModal user;

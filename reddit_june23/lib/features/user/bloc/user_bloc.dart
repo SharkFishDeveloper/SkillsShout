@@ -44,8 +44,26 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   }
 
   FutureOr<void> userUpdate(UserUpdateEvent event, Emitter<UserState> emit) {
+   
+    emit(LoadingUsserState());
+
+    try {
+      User? currentUser = FirebaseAuth.instance.currentUser;
+      CollectionReference users =
+          FirebaseFirestore.instance.collection('all_users');
+      users.doc(event.userModal.uid).update(event.userModal.toMap());
+      emit(UserStateData(event.userModal));
+    } on FirebaseAuthException catch (e) {
+      //showSnackBar(context, e.message!);
+      emit(UserErrorState(errorMessage: e.message!));
+      print(e.message);
+    } catch (e) {
+      //showSnackBar(context, e.toString());
+      emit(UserErrorState(errorMessage: e.toString()));
+      print(e.toString());
+    }
+
 //userModal = event.userModal;
-    emit(UserStateData(event.userModal));
   }
 
   FutureOr<void> storeUserDataEventInFirestore(

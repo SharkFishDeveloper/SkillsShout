@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:reddit_june23/features/dashboard/bloc/view/screens/profile_page.dart';
+import 'package:reddit_june23/features/user/screens/profile_page.dart';
 import 'package:reddit_june23/features/user/bloc/user_bloc.dart';
 
 import '../../../../../modals/user_modal.dart';

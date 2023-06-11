@@ -61,7 +61,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
       print('Bio: $bio');
       //print('Skills: $skills');
       final userBloc = BlocProvider.of<UserBloc>(context);
-      userBloc.add(UserUpdateEvent(userModal));
+      userBloc.add(UserUpdateEvent(userModal: userModal,message: "Done"));
       userBloc.add(StoreUserDataEventInFirestore(userModal));
       Navigator.push(context,
           MaterialPageRoute(builder: (context) => const DashboardScreen()));

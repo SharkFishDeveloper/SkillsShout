@@ -6,8 +6,9 @@ abstract class UserEvent {}
 
 class UserUpdateEvent extends UserEvent {
   final UserModal userModal;
+  final String message;
 
-  UserUpdateEvent(this.userModal); //* to be given by UI
+  UserUpdateEvent({required this.userModal, required this.message}); //* to be given by UI
 }
 
 class StoreUserDataEventInFirestore extends UserEvent {
@@ -16,12 +17,10 @@ class StoreUserDataEventInFirestore extends UserEvent {
 }
 
 class SearchUserEventInFirestore extends UserEvent {
- final String searchString;
+  final String searchString;
   SearchUserEventInFirestore({
     required this.searchString,
   });
-  
 }
 
-class GetUserDataFromFirestoreEvent extends UserEvent{
-}
+class GetUserDataFromFirestoreEvent extends UserEvent {}
