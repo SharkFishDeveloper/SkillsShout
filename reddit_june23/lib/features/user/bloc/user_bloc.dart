@@ -39,13 +39,12 @@ class UserBloc extends Bloc<UserEvent, UserState> {
             email: ""))) {
     on<UserUpdateEvent>(userUpdate);
     on<StoreUserDataEventInFirestore>(storeUserDataEventInFirestore);
-    on<SearchUserEventInFirestore>(searchUserByInFirestore);
+    on<SearchUserEventInFirestore>(searchUserBySkillInFirestore);
     on<GetUserDataFromFirestoreEvent>(fetchUserData);
   }
 
   FutureOr<void> userUpdate(UserUpdateEvent event, Emitter<UserState> emit) {
-   
-    emit(LoadingUsserState());
+    emit(LoadingUsserState()); // this is not working
 
     try {
       User? currentUser = FirebaseAuth.instance.currentUser;
@@ -84,7 +83,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     }
   }
 
-  FutureOr<void> searchUserByInFirestore(
+  FutureOr<void> searchUserBySkillInFirestore(
       SearchUserEventInFirestore event, Emitter<UserState> emit) async {
     final firestore = FirebaseFirestore.instance;
     final CollectionReference usersCollection =
@@ -132,7 +131,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     if (document.exists) {
       var userData = document.data();
       emit(UserStateData(UserModal.fromMap(
-          userData!))); //! Assumed that the userData cant be null
+          userData!))); //! Assumed that the userData can't be null
     } else {
       emit(UserErrorState(errorMessage: "Error getting user"));
     }
