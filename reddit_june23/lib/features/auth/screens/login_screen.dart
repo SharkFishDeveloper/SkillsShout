@@ -18,6 +18,7 @@ class LoginScreen extends ConsumerStatefulWidget {
 }
 
 class _EmailSignUpState extends ConsumerState<LoginScreen> {
+  bool isLoading = false;
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
@@ -35,7 +36,7 @@ class _EmailSignUpState extends ConsumerState<LoginScreen> {
         padding: const EdgeInsets.all(30),
         child: BlocConsumer<UserBloc, UserState>(
           listener: (context, state) {
-            if(state is UserErrorState){
+            if (state is UserErrorState) {
               return showSnackBar(context, state.errorMessage);
             }
           },
@@ -45,7 +46,6 @@ class _EmailSignUpState extends ConsumerState<LoginScreen> {
                 child: CircularProgressIndicator(),
               );
             }
-          
 
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -101,6 +101,9 @@ class _EmailSignUpState extends ConsumerState<LoginScreen> {
                   children: [
                     ElevatedButton(
                       onPressed: () async {
+                        setState(() {
+                          isLoading = true;
+                        });
                         bool res = await ref
                             .watch(authControllerProvider)
                             .loginWithEmail(emailController.text,
@@ -114,12 +117,18 @@ class _EmailSignUpState extends ConsumerState<LoginScreen> {
                               MaterialPageRoute(
                                   builder: (context) =>
                                       const DashboardScreen()));
+                        } else if (res == false && mounted) {
+                          setState(() {
+                            isLoading = false;
+                          });
                         }
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.grey,
                       ),
-                      child: const Text('Proceed'),
+                      child: isLoading
+                          ? const CircularProgressIndicator()
+                          : const Text('Proceed'),
                     ),
                   ],
                 ),

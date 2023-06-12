@@ -59,15 +59,13 @@ class FireBaseAuthMethods {
     required BuildContext context,
   }) async {
     try {
-      await _auth.signInWithEmailAndPassword(email: email, password: password);
+      await _auth.ssignInWithEmailAndPassword(email: email, password: password);
       return true;
     } on FirebaseAuthException catch (e) {
-    
-        showSnackBar(context, e.code);
-      
+      showSnackBar(context, e.code);
+    } catch (e) {
+      showSnackBar(context, e.toString());
     }
-    catch(e){
-       showSnackBar(context, e.toString());
-    }return false;
+    return false;
   }
 }

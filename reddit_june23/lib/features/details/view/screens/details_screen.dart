@@ -94,7 +94,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                 controller: _phoneController,
                 decoration: const InputDecoration(labelText: 'Phone No.'),
                 validator: (value) {
-                  if (value == null || value.isEmpty) {
+                  if (value == null || value.isEmpty || value.length > 10) {
                     return 'Please enter your phone number';
                   }
                   return null;

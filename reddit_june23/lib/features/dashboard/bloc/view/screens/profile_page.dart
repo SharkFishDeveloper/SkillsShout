@@ -79,6 +79,30 @@ class _ProfilePageState extends State<ProfilePage> {
                 fontSize: 18.0,
               ),
             ),
+            const SizedBox(
+              height: 50,
+            ),
+            Container(
+              height: 30,
+              width: 60,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+                color: Colors.teal,
+              ),
+              child: Center(child: Text('Contact')),
+            ),
+            const SizedBox(
+              height: 50,
+            ),
+            Container(
+              height: 30,
+              width: 60,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+                color: Colors.teal,
+              ),
+              child: Center(child: Text("${100}")),
+            ),
           ],
         ),
       ),
